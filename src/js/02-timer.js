@@ -1,4 +1,5 @@
 import flatpickr from 'flatpickr';
+import Notiflix from 'notiflix';
 import 'flatpickr/dist/flatpickr.min.css';
 
 const startBtn = document.querySelector('[data-start]');
@@ -51,7 +52,8 @@ const options = {
 
     if (currentDate >= selectedDate) {
       startBtn.disabled = true;
-      window.alert('PLease choose a date in the future');
+      Notiflix.Notify.failure('PLease choose a date in the future');
+      //   window.alert('PLease choose a date in the future');
     } else {
       startBtn.disabled = false;
       startBtn.addEventListener('click', () => {
@@ -85,6 +87,7 @@ const options = {
 
           if (roundedDistance === 0) {
             clearInterval(intervalTimer);
+            Notiflix.Notify.success('Timer finished');
             console.log('Timer finished');
             // window.alert('Timer finished');
           }
