@@ -3,9 +3,8 @@ import 'flatpickr/dist/flatpickr.min.css';
 
 const startBtn = document.querySelector('[data-start]');
 startBtn.disabled = true;
-console.log(startBtn);
+// console.log(startBtn);
 const days = document.querySelector('[data-days]');
-days.innerHTML = 20;
 const hours = document.querySelector('[data-hours]');
 const minutes = document.querySelector('[data-minutes]');
 const seconds = document.querySelector('[data-seconds]');
@@ -39,10 +38,16 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     const currentDate = new Date().getTime();
-    console.log('currentDate', currentDate);
+    // console.log('currentDate', currentDate);
 
     const selectedDate = selectedDates[0].getTime();
-    console.log('selectedDate', selectedDate);
+    // console.log('selectedDate', selectedDate);
+
+    const distance = selectedDate - currentDate;
+    // console.log('distance', distance);
+
+    const roundedDistance = Math.round(distance / 1000);
+    // console.log(roundedDistance);
 
     if (currentDate >= selectedDate) {
       startBtn.disabled = true;
@@ -50,20 +55,47 @@ const options = {
     } else {
       startBtn.disabled = false;
       startBtn.addEventListener('click', () => {
-        console.log(selectedDate);
-        console.log(convertMs(selectedDate));
+        startBtn.disabled = true;
+
+        // console.log(selectedDate);
+        // console.log(convertMs(selectedDate));
+
+        let intervalTimer = setInterval(() => {
+          const currentDate = new Date().getTime();
+          //   console.log(currentDate);
+          const selectedDate = selectedDates[0].getTime();
+          //   console.log(selectedDate);
+          const distance = selectedDate - currentDate;
+          const roundedDistance = Math.floor(distance / 1000);
+
+          // console.log('stringDistance:', stringDistance);
+          const convertedDistance = convertMs(distance);
+          console.log('convertedDistance: ', convertedDistance);
+          console.log('roundedDistance: ', roundedDistance);
+
+          function addLeadingZero(value) {
+            return String(value).padStart(2, '0');
+          }
+
+          //   days.innerHTML = convertedDistance.days;
+          days.innerHTML = addLeadingZero(convertedDistance.days);
+          hours.innerHTML = addLeadingZero(convertedDistance.hours);
+          minutes.innerHTML = addLeadingZero(convertedDistance.minutes);
+          seconds.innerHTML = addLeadingZero(convertedDistance.seconds);
+
+          if (roundedDistance === 0) {
+            clearInterval(intervalTimer);
+            console.log('Timer finished');
+            // window.alert('Timer finished');
+          }
+        }, 1000);
       });
     }
-
-    // localStorage.setItem('selected-date', selectedDates[0].getTime());
-    // return selectedDates[0].getTime();
   },
 };
 flatpickr(dateTimePicker, options);
 // Date time picker
 
-// const selectedDate = localStorage.getItem('selected-date');
-
-console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
-console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
-console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
+// console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
+// console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
+// console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}

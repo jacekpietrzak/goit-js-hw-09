@@ -10,9 +10,33 @@ body {
   background-color: #fafafa;
   color: #212121;
   line-height: 1.5;
+  padding: 30px;
 }
 
 img {
   display: block;
   max-width: 100%;
+}
+
+.timer {
+  display: flex;
+  gap: 15px;
+  width: 100%;
+  padding-top: 30px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.value {
+  text-transform: uppercase;
+  font-size: xx-large;
+  text-align: center;
+}
+
+.label {
+  text-transform: uppercase;
+  font-size: small;
 }
