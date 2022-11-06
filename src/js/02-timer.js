@@ -57,16 +57,21 @@ const options = {
     } else {
       startBtn.disabled = false;
       startBtn.addEventListener('click', () => {
-        startBtn.disabled = true;
-
         // console.log(selectedDate);
         // console.log(convertMs(selectedDate));
 
         let intervalTimer = setInterval(() => {
           const currentDate = new Date().getTime();
-          //   console.log(currentDate);
+          //   //   console.log(currentDate);
           const selectedDate = selectedDates[0].getTime();
           //   console.log(selectedDate);
+
+          if (currentDate >= selectedDate) {
+            clearInterval(intervalTimer);
+            return Notiflix.Notify.failure(
+              'The chosen date has passed. PLease choose a date in the future'
+            );
+          }
           const distance = selectedDate - currentDate;
           const roundedDistance = Math.floor(distance / 1000);
 
@@ -84,6 +89,8 @@ const options = {
           hours.innerHTML = addLeadingZero(convertedDistance.hours);
           minutes.innerHTML = addLeadingZero(convertedDistance.minutes);
           seconds.innerHTML = addLeadingZero(convertedDistance.seconds);
+
+          startBtn.disabled = true;
 
           if (roundedDistance === 0) {
             clearInterval(intervalTimer);
